@@ -85,6 +85,22 @@ namespace ConsoleSudoku.Screens {
                                 break;
                             }
                     break;
+                case ConsoleKey.LeftArrow:
+                    if (selected.Item2 > 0)
+                        for (int i = selected.Item2 - 1; i >= 0; i--)
+                            if (sudoku[selected.Item1, i] == 0) {
+                                selected.Item2 = i;
+                                break;
+                            }
+                    break;
+                case ConsoleKey.RightArrow:
+                    if (selected.Item2 < 8)
+                        for (int i = selected.Item2 + 1; i <= 8; i++)
+                            if (sudoku[selected.Item1, i] == 0) {
+                                selected.Item2 = i;
+                                break;
+                            }
+                    break;
                 case ConsoleKey.Enter:
                     exit = true;
                     break;
