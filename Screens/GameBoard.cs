@@ -16,7 +16,7 @@ namespace ConsoleSudoku.Screens {
                 for (int j = 0; j < 9; j++) {
                     // if no square is selected, select first free square
                     if (selected.Item1 == -1 && selected.Item2 == -1 && sudoku[i, j] == 0)
-                        selected = (1, 1);
+                        selected = (i, j);
 
                     if (i == 0)
                         DrawBorder(i, j, "╔", "╦", "╤", "═══", "╗");
@@ -65,7 +65,30 @@ namespace ConsoleSudoku.Screens {
         }
 
         protected override void HandleInput() {
-            ReadKey();
+            ConsoleKey key;
+
+            key = ReadKey();
+            switch (key) {
+                case ConsoleKey.UpArrow:
+                    if (selected.Item1 > 0)
+                        for (int i = selected.Item1 - 1; i >= 0; i--)
+                            if (sudoku[i, selected.Item2] == 0) {
+                                selected.Item1 = i;
+                                break;
+                            }
+                    break;
+                case ConsoleKey.DownArrow:
+                    if (selected.Item1 < 8)
+                        for (int i = selected.Item1 + 1; i <= 8; i++)
+                            if (sudoku[i, selected.Item2] == 0) {
+                                selected.Item1 = i;
+                                break;
+                            }
+                    break;
+                case ConsoleKey.Enter:
+                    exit = true;
+                    break;
+            }
         }
     }
 }
