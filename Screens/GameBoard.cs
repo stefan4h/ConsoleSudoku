@@ -51,7 +51,7 @@ namespace ConsoleSudoku.Screens {
             StringBuilder sb = new StringBuilder();
             for (int j = 0; j < 9; j++) {
                 if (j % 3 == 0)
-                    W("║", selected.Item2 == j && selected.Item1 == line);
+                    W("║", (selected.Item2 == j || selected.Item2 + 1 == j) && selected.Item1 == line);
                 else
                     W("|", (selected.Item2 == j || selected.Item2 + 1 == j) && selected.Item1 == line);
 
@@ -71,35 +71,19 @@ namespace ConsoleSudoku.Screens {
             switch (key) {
                 case ConsoleKey.UpArrow:
                     if (selected.Item1 > 0)
-                        for (int i = selected.Item1 - 1; i >= 0; i--)
-                            if (sudoku[i, selected.Item2] == 0) {
-                                selected.Item1 = i;
-                                break;
-                            }
+                        selected.Item1--;
                     break;
                 case ConsoleKey.DownArrow:
                     if (selected.Item1 < 8)
-                        for (int i = selected.Item1 + 1; i <= 8; i++)
-                            if (sudoku[i, selected.Item2] == 0) {
-                                selected.Item1 = i;
-                                break;
-                            }
+                        selected.Item1++;
                     break;
                 case ConsoleKey.LeftArrow:
                     if (selected.Item2 > 0)
-                        for (int i = selected.Item2 - 1; i >= 0; i--)
-                            if (sudoku[selected.Item1, i] == 0) {
-                                selected.Item2 = i;
-                                break;
-                            }
+                        selected.Item2--;
                     break;
                 case ConsoleKey.RightArrow:
                     if (selected.Item2 < 8)
-                        for (int i = selected.Item2 + 1; i <= 8; i++)
-                            if (sudoku[selected.Item1, i] == 0) {
-                                selected.Item2 = i;
-                                break;
-                            }
+                        selected.Item2++;
                     break;
                 case ConsoleKey.Enter:
                     exit = true;
