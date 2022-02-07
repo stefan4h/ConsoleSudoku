@@ -8,7 +8,8 @@ namespace ConsoleSudoku.Screens {
     public abstract class ASudokuScreen {
 
         protected const int LINE_LENGTH = 90;
-        protected const ConsoleColor selectColor = ConsoleColor.DarkRed;
+        protected const ConsoleColor defaultColor = ConsoleColor.White;
+        protected const ConsoleColor selectColor = ConsoleColor.Blue;
         protected bool exit = false;
 
         private void ShowTitle() {
@@ -23,27 +24,22 @@ namespace ConsoleSudoku.Screens {
             CW();
         }
 
-        protected void CW(string line = "", bool color = false) {
-            if (color)
-                Console.ForegroundColor = selectColor;
+        protected void CW(string line = "", ConsoleColor color = defaultColor) {
+            Console.ForegroundColor = color;
 
             Console.WriteLine(line);
 
             Console.ResetColor();
         }
 
-        protected void CW(object? value, bool color = false) {
-            if (color)
-                Console.ForegroundColor = selectColor;
-
+        protected void CW(object? value, ConsoleColor color = defaultColor) {
+            Console.ForegroundColor = color;
             Console.WriteLine(value);
             Console.ResetColor();
         }
 
-        protected void W(string line = "", bool color = false) {
-            if (color)
-                Console.ForegroundColor = selectColor;
-
+        protected void W(string line = "", ConsoleColor color = defaultColor) {
+            Console.ForegroundColor = color;
             Console.Write(line);
             Console.ResetColor();
         }

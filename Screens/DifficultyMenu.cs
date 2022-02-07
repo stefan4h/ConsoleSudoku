@@ -21,14 +21,8 @@ namespace ConsoleSudoku.Screens {
         protected override void Draw() {
             ShowSmallerTitle("Choose your Difficulty");
 
-            for (int i = 0; i < difficulties.Count; i++) {
-                if (i == selectedIndex)
-                    Console.ForegroundColor = ConsoleColor.Red;
-
-                CW(difficulties[i]);
-
-                Console.ResetColor();
-            }
+            for (int i = 0; i < difficulties.Count; i++)
+                CW(difficulties[i], i == selectedIndex ? selectColor : defaultColor);
         }
 
         protected override void HandleInput() {

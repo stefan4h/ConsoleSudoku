@@ -28,39 +28,40 @@ namespace ConsoleSudoku.Screens {
                 DrawSudokuLine(i);
                 if (i == 8)
                     for (int j = 0; j < 9; j++) {
-                        DrawBorder(i, j, "╚", "╧", "╩", "═══", "╝");
+                        DrawBorder(9, j, "╚", "╧", "╩", "═══", "╝");
                     }
             }
         }
 
         private void DrawBorder(int x, int y, string left, string middle, string normal, string line, string right) {
             if (y == 0)
-                W(left, selected.Item2 == 0 && (selected.Item1 == x || selected.Item1 + 1 == x));
+                W(left,
+                    selected.Item2 == 0 && (selected.Item1 == x || selected.Item1 + 1 == x) ? selectColor : defaultColor);
             else if (y % 3 == 0)
-                W(middle, (selected.Item2 == y || selected.Item2 + 1 == y) && (selected.Item1 == x || selected.Item1 + 1 == x));
+                W(middle, (selected.Item2 == y || selected.Item2 + 1 == y) && (selected.Item1 == x || selected.Item1 + 1 == x) ? selectColor : defaultColor);
             else
-                W(normal, (selected.Item2 == y || selected.Item2 + 1 == y) && (selected.Item1 == x || selected.Item1 + 1 == x));
+                W(normal, (selected.Item2 == y || selected.Item2 + 1 == y) && (selected.Item1 == x || selected.Item1 + 1 == x) ? selectColor : defaultColor);
 
-            W(line, selected.Item2 == y && (selected.Item1 == x || selected.Item1 + 1 == x));
+            W(line, selected.Item2 == y && (selected.Item1 == x || selected.Item1 + 1 == x) ? selectColor : defaultColor);
 
             if (y == 8)
-                W(right + "\n", selected.Item2 == 8 && (selected.Item1 == x || selected.Item1 + 1 == x));
+                W(right + "\n", selected.Item2 == 8 && (selected.Item1 == x || selected.Item1 + 1 == x) ? selectColor : defaultColor);
         }
 
         private void DrawSudokuLine(int line) {
             StringBuilder sb = new StringBuilder();
             for (int j = 0; j < 9; j++) {
                 if (j % 3 == 0)
-                    W("║", (selected.Item2 == j || selected.Item2 + 1 == j) && selected.Item1 == line);
+                    W("║", (selected.Item2 == j || selected.Item2 + 1 == j) && selected.Item1 == line ? selectColor : defaultColor);
                 else
-                    W("|", (selected.Item2 == j || selected.Item2 + 1 == j) && selected.Item1 == line);
+                    W("|", (selected.Item2 == j || selected.Item2 + 1 == j) && selected.Item1 == line ? selectColor : defaultColor);
 
                 if (sudoku[line, j] != 0)
                     W($" {sudoku[line, j]} ");
                 else
                     W("   ");
             }
-            W("║", selected.Item2 == 8 && selected.Item1 == line);
+            W("║", selected.Item2 == 8 && selected.Item1 == line ? selectColor : defaultColor);
             CW(sb);
         }
 
@@ -68,6 +69,12 @@ namespace ConsoleSudoku.Screens {
             ConsoleKey key;
 
             key = ReadKey();
+
+            if (KeyIsNumeric(key)) {
+
+                return;
+            }
+
             switch (key) {
                 case ConsoleKey.UpArrow:
                     if (selected.Item1 > 0)
@@ -89,6 +96,11 @@ namespace ConsoleSudoku.Screens {
                     exit = true;
                     break;
             }
+        }
+
+        private bool KeyIsNumeric(ConsoleKey key) {
+            return (key >= ConsoleKey.D0 && key <= ConsoleKey.D9)
+                || (key >= ConsoleKey.NumPad0 && key <= ConsoleKey.NumPad9);
         }
     }
 }
