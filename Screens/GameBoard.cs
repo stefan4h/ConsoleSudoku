@@ -16,7 +16,7 @@ namespace ConsoleSudoku.Screens {
                 for (int j = 0; j < 9; j++) {
                     // if no square is selected, select first free square
                     if (selected.Item1 == -1 && selected.Item2 == -1 && sudoku[i, j] == 0)
-                        selected = (i, j);
+                        selected = (1, 1);
 
                     if (i == 0)
                         DrawBorder(i, j, "╔", "╦", "╤", "═══", "╗");
@@ -31,26 +31,6 @@ namespace ConsoleSudoku.Screens {
                         DrawBorder(i, j, "╚", "╧", "╩", "═══", "╝");
                     }
             }
-
-            //CW("╔═══╤═══╤═══╦═══╤═══╤═══╦═══╤═══╤═══╗");
-            //DrawSudokuLine(0);
-            //CW("╟───┼───┼───╫───┼───┼───╫───┼───┼───╢");
-            //DrawSudokuLine(1);
-            //CW("╟───┼───┼───╫───┼───┼───╫───┼───┼───╢");
-            //DrawSudokuLine(2);
-            //CW("╠═══╪═══╪═══╬═══╪═══╪═══╬═══╪═══╪═══╣");
-            //DrawSudokuLine(3);
-            //CW("╟───┼───┼───╫───┼───┼───╫───┼───┼───╢");
-            //DrawSudokuLine(4);
-            //CW("╟───┼───┼───╫───┼───┼───╫───┼───┼───╢");
-            //DrawSudokuLine(5);
-            //CW("╠═══╪═══╪═══╬═══╪═══╪═══╬═══╪═══╪═══╣");
-            //DrawSudokuLine(6);
-            //CW("╟───┼───┼───╫───┼───┼───╫───┼───┼───╢");
-            //DrawSudokuLine(7);
-            //CW("╟───┼───┼───╫───┼───┼───╫───┼───┼───╢");
-            //DrawSudokuLine(8);
-            //CW("╚═══╧═══╧═══╩═══╧═══╧═══╩═══╧═══╧═══╝");
         }
 
         private void DrawBorder(int x, int y, string left, string middle, string normal, string line, string right) {
@@ -64,23 +44,23 @@ namespace ConsoleSudoku.Screens {
             W(line, selected.Item2 == y && (selected.Item1 == x || selected.Item1 + 1 == x));
 
             if (y == 8)
-                W(right + "\n",selected.Item2 == 8 && (selected.Item1 == x || selected.Item1 + 1 == x));
+                W(right + "\n", selected.Item2 == 8 && (selected.Item1 == x || selected.Item1 + 1 == x));
         }
 
         private void DrawSudokuLine(int line) {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < 9; i++) {
-                if (i % 3 == 0)
-                    sb.Append("║");
+            for (int j = 0; j < 9; j++) {
+                if (j % 3 == 0)
+                    W("║", selected.Item2 == j && selected.Item1 == line);
                 else
-                    sb.Append("|");
+                    W("|", (selected.Item2 == j || selected.Item2 + 1 == j) && selected.Item1 == line);
 
-                if (sudoku[line, i] != 0)
-                    sb.Append($" {sudoku[line, i]} ");
+                if (sudoku[line, j] != 0)
+                    W($" {sudoku[line, j]} ");
                 else
-                    sb.Append("   ");
+                    W("   ");
             }
-            sb.Append("║");
+            W("║", selected.Item2 == 8 && selected.Item1 == line);
             CW(sb);
         }
 
