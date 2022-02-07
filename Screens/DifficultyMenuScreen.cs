@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleSudoku.Screens {
-    public class DifficultyMenu : ASudokuScreen {
+    public class DifficultyMenuScreen : ASudokuScreen {
         private List<ESudokuDifficulty> difficulties;
         private int selectedIndex;
 
-        public DifficultyMenu() {
+        public DifficultyMenuScreen() {
             selectedIndex = 0;
             difficulties = new List<ESudokuDifficulty> { ESudokuDifficulty.Easy, ESudokuDifficulty.Medium, ESudokuDifficulty.Hard };
         }

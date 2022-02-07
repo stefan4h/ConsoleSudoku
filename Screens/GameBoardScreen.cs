@@ -2,12 +2,12 @@
 using System.Text;
 
 namespace ConsoleSudoku.Screens {
-    public class GameBoard : ASudokuScreen {
+    public class GameBoardScreen : ASudokuScreen {
 
         private int[,] sudoku;
         private (int, int) selected = (-1, -1);
 
-        public GameBoard(int[,] sudoku) {
+        public GameBoardScreen(int[,] sudoku) {
             this.sudoku = sudoku;
         }
 

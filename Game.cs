@@ -59,12 +59,12 @@ namespace ConsoleSudoku {
         }
 
         public void Play() {
-            DifficultyMenu difficultyMenu = new DifficultyMenu();
+            DifficultyMenuScreen difficultyMenu = new DifficultyMenuScreen();
             difficultyMenu.Show();
             difficulty = difficultyMenu.GetDifficulty();
 
             generateExample();
-            GameBoard board = new GameBoard(exampleSudoku);
+            GameBoardScreen board = new GameBoardScreen(exampleSudoku);
             board.Show();
         }
     }
