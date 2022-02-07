@@ -8,6 +8,7 @@ namespace ConsoleSudoku.Screens {
     public abstract class ASudokuScreen {
 
         protected const int LINE_LENGTH = 90;
+        protected const ConsoleColor selectColor = ConsoleColor.DarkRed;
         protected bool exit = false;
 
         private void ShowTitle() {
@@ -22,12 +23,29 @@ namespace ConsoleSudoku.Screens {
             CW();
         }
 
-        protected void CW(string line = "") {
+        protected void CW(string line = "", bool color = false) {
+            if (color)
+                Console.ForegroundColor = selectColor;
+
             Console.WriteLine(line);
+
+            Console.ResetColor();
         }
 
-        protected void CW(object? value) {
+        protected void CW(object? value, bool color = false) {
+            if (color)
+                Console.ForegroundColor = selectColor;
+
             Console.WriteLine(value);
+            Console.ResetColor();
+        }
+
+        protected void W(string line = "", bool color = false) {
+            if (color)
+                Console.ForegroundColor = selectColor;
+
+            Console.Write(line);
+            Console.ResetColor();
         }
 
         protected string GetStringAsRepeatedChar(char c, int count) {
