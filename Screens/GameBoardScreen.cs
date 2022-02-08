@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleSudoku.Actions;
+using System;
 using System.Text;
 
 namespace ConsoleSudoku.Screens {
@@ -85,6 +86,7 @@ namespace ConsoleSudoku.Screens {
                 return;
             }
 
+            // arrow navigation keys 
             switch (key.Key) {
                 case ConsoleKey.UpArrow:
                     if (selected.Item1 > 0)
@@ -106,6 +108,11 @@ namespace ConsoleSudoku.Screens {
                     exit = true;
                     break;
             }
+        }
+
+        protected override void ExecuteActions() {
+            base.ExecuteActions();
+            VerifySudokuSolvedAction verifySudokuSolvedAction = new VerifySudokuSolvedAction(sudoku,solution);
         }
 
         private bool KeyIsNumeric(ConsoleKey key) {

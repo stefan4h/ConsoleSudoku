@@ -89,10 +89,15 @@ namespace ConsoleSudoku.Screens {
                 ShowTitle();
                 Draw();
                 HandleInput();
+                ExecuteActions();
             } while (!exit);
         }
 
+
         protected abstract void Draw();
         protected abstract void HandleInput();
+        protected virtual void ExecuteActions() {
+
+        }
     }
 }
