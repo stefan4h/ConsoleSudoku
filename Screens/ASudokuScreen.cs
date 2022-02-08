@@ -77,6 +77,10 @@ namespace ConsoleSudoku.Screens {
             return Console.ReadKey(true).Key;
         }
 
+        protected ConsoleKeyInfo ReadKeyInfo() {
+            return Console.ReadKey(true);
+        }
+
         public void Show() {
             Console.CursorVisible = false;
             do {

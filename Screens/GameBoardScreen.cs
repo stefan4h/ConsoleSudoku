@@ -5,6 +5,7 @@ namespace ConsoleSudoku.Screens {
     public class GameBoardScreen : ASudokuScreen {
 
         private int[,] sudoku;
+        private int[,] solution = new int[9, 9];
         private (int, int) selected = (-1, -1);
 
         public GameBoardScreen(int[,] sudoku) {
@@ -58,6 +59,8 @@ namespace ConsoleSudoku.Screens {
 
                 if (sudoku[line, j] != 0)
                     W($" {sudoku[line, j]} ");
+                else if (solution[line, j] != 0)
+                    W($" {solution[line, j]} ", selectColor);
                 else
                     W("   ");
             }
@@ -66,16 +69,23 @@ namespace ConsoleSudoku.Screens {
         }
 
         protected override void HandleInput() {
-            ConsoleKey key;
+            ConsoleKeyInfo key;
 
-            key = ReadKey();
+            key = ReadKeyInfo();
 
-            if (KeyIsNumeric(key)) {
-
+            // add value to solution if selected field is not part of the sudoku
+            if (KeyIsNumeric(key.Key) && sudoku[selected.Item1, selected.Item2] == 0) {
+                solution[selected.Item1, selected.Item2] = int.Parse(key.KeyChar.ToString());
                 return;
             }
 
-            switch (key) {
+            // remove value from solution if delete or backspace is pressed
+            if ((key.Key == ConsoleKey.Backspace || key.Key == ConsoleKey.Delete) && sudoku[selected.Item1, selected.Item2] == 0) {
+                solution[selected.Item1, selected.Item2] = 0;
+                return;
+            }
+
+            switch (key.Key) {
                 case ConsoleKey.UpArrow:
                     if (selected.Item1 > 0)
                         selected.Item1--;
@@ -99,8 +109,8 @@ namespace ConsoleSudoku.Screens {
         }
 
         private bool KeyIsNumeric(ConsoleKey key) {
-            return (key >= ConsoleKey.D0 && key <= ConsoleKey.D9)
-                || (key >= ConsoleKey.NumPad0 && key <= ConsoleKey.NumPad9);
+            return (key > ConsoleKey.D0 && key <= ConsoleKey.D9)
+                || (key > ConsoleKey.NumPad0 && key <= ConsoleKey.NumPad9);
         }
     }
 }
