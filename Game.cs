@@ -1,4 +1,5 @@
-﻿using ConsoleSudoku.Screens;
+﻿using ConsoleSudoku.Actions;
+using ConsoleSudoku.Screens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +65,10 @@ namespace ConsoleSudoku {
             difficulty = difficultyMenu.GetDifficulty();
 
             generateExample();
-            GameBoardScreen board = new GameBoardScreen(exampleSudoku);
+            var generateCompleteSudokuAction = new GenerateCompleteSudokuAction();
+            generateCompleteSudokuAction.Execute();
+
+            GameBoardScreen board = new GameBoardScreen(generateCompleteSudokuAction.GetSudoku());
             board.Show();
         }
     }
