@@ -14,30 +14,38 @@ namespace ConsoleSudoku.Actions {
         }
 
         public void Execute() {
+            Random rnd = new Random();
+            List<int> digits = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            List<int> rows = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+            List<int> columns = new List<int>(rows);
+            for (int i = 0; i < 9; i++) {
+                int digitIndex = rnd.Next(0, digits.Count); // choose random digit out of list of possibilities
+                int rowIndex = rnd.Next(0, rows.Count);
+                int columnIndex = rnd.Next(0, columns.Count);
 
-            Solve();
+                sudoku[rows[rowIndex], columns[columnIndex]] = digits[digitIndex]; //insert random digit in random position
+                digits.RemoveAt(digitIndex); // remove chosen digit from posibilities
+                rows.RemoveAt(rowIndex);
+                columns.RemoveAt(columnIndex);
+            }
+            //Solve();
         }
 
         private bool Solve() {
-            Random rnd = new Random();
+
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     if (sudoku[i, j] == 0) {
-                        List<int> possibleDigits = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-                        while (possibleDigits.Count > 0) {
-                            int index = rnd.Next(0, possibleDigits.Count); // choose random digit out of list of possibilities
-                            int digit = possibleDigits[index];
-                            possibleDigits.RemoveAt(index); // remove chosen digit from posibilities
-                            if (IsValid(digit, i, j)) {
-                                sudoku[i, j] = digit;
+                        for (int d = 1; d <= 9; d++) {
+
+                            if (IsValid(d, i, j)) {
+                                sudoku[i, j] = d;
                                 if (Solve())
                                     return true;
                                 else
                                     sudoku[i, j] = 0;
                             }
-
                         }
-
                         return false;
                     }
                 }
