@@ -12,6 +12,7 @@ namespace ConsoleSudoku.Screens {
         protected const ConsoleColor defaultColor = ConsoleColor.White;
         protected const ConsoleColor selectColor = ConsoleColor.Blue;
         protected bool exit = false;
+        protected bool skipRedraw = false;
 
         public ASudokuScreen() {
             randomColor = GetRandomConsoleColor();
@@ -85,9 +86,12 @@ namespace ConsoleSudoku.Screens {
             Console.CursorVisible = false;
             do {
                 randomColor = GetRandomConsoleColor();
-                Console.Clear();
-                ShowTitle();
-                Draw();
+                if (!skipRedraw) {
+                    Console.Clear();
+                    ShowTitle();
+                    Draw();
+                }
+                skipRedraw = false;
                 HandleInput();
                 ExecuteActions();
             } while (!exit);

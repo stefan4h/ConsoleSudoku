@@ -18,6 +18,7 @@ namespace ConsoleSudoku.Actions {
 
         public bool GetSolved() => solved;
 
+        // TODO: get rid of private arrays in class and compare the static from Game to the completed grid
         public void Execute() {
             // inital check if sudoku is complete to avoid unnecessary checks
             if (!NoEmptyField())

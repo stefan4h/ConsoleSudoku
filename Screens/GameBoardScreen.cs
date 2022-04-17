@@ -5,21 +5,11 @@ using System.Text;
 namespace ConsoleSudoku.Screens {
     public class GameBoardScreen : ASudokuScreen {
 
-        private int[,] sudoku;
-        private int[,] solution = new int[9, 9];
-        private (int, int) selected = (-1, -1);
-
-        public GameBoardScreen(int[,] sudoku) {
-            this.sudoku = sudoku;
-        }
+        private (int, int) selected = (4, 4);
 
         protected override void Draw() {
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
-                    // if no square is selected, select first free square
-                    if (selected.Item1 == -1 && selected.Item2 == -1 && sudoku[i, j] == 0)
-                        selected = (i, j);
-
                     if (i == 0)
                         DrawBorder(i, j, "╔", "╦", "╤", "═══", "╗");
                     else if (i % 3 == 0)
@@ -38,16 +28,40 @@ namespace ConsoleSudoku.Screens {
         private void DrawBorder(int x, int y, string left, string middle, string normal, string line, string right) {
             if (y == 0)
                 W(left,
-                    selected.Item2 == 0 && (selected.Item1 == x || selected.Item1 + 1 == x) ? selectColor : defaultColor);
+                    selected.Item2 == 0 && 
+                    (selected.Item1 == x || selected.Item1 + 1 == x) ? 
+                    selectColor : 
+                    defaultColor
+                    );
             else if (y % 3 == 0)
-                W(middle, (selected.Item2 == y || selected.Item2 + 1 == y) && (selected.Item1 == x || selected.Item1 + 1 == x) ? selectColor : defaultColor);
+                W(middle, 
+                    (selected.Item2 == y || selected.Item2 + 1 == y) && 
+                    (selected.Item1 == x || selected.Item1 + 1 == x) ? 
+                    selectColor : 
+                    defaultColor
+                    );
             else
-                W(normal, (selected.Item2 == y || selected.Item2 + 1 == y) && (selected.Item1 == x || selected.Item1 + 1 == x) ? selectColor : defaultColor);
+                W(normal,
+                    (selected.Item2 == y || selected.Item2 + 1 == y) &&
+                    (selected.Item1 == x || selected.Item1 + 1 == x) ?
+                    selectColor : 
+                    defaultColor
+                    );
 
-            W(line, selected.Item2 == y && (selected.Item1 == x || selected.Item1 + 1 == x) ? selectColor : defaultColor);
+            W(line, 
+                selected.Item2 == y && 
+                (selected.Item1 == x || selected.Item1 + 1 == x) ? 
+                selectColor : 
+                defaultColor
+                );
 
             if (y == 8)
-                W(right + "\n", selected.Item2 == 8 && (selected.Item1 == x || selected.Item1 + 1 == x) ? selectColor : defaultColor);
+                W(right + "\n", 
+                    selected.Item2 == 8 && 
+                    (selected.Item1 == x || selected.Item1 + 1 == x) ? 
+                    selectColor : 
+                    defaultColor
+                    );
         }
 
         private void DrawSudokuLine(int line) {
@@ -58,10 +72,10 @@ namespace ConsoleSudoku.Screens {
                 else
                     W("|", (selected.Item2 == j || selected.Item2 + 1 == j) && selected.Item1 == line ? selectColor : defaultColor);
 
-                if (sudoku[line, j] != 0)
-                    W($" {sudoku[line, j]} ");
-                else if (solution[line, j] != 0)
-                    W($" {solution[line, j]} ", selectColor);
+                if (Game.Hints[line, j] != 0)
+                    W($" {Game.Hints[line, j]} ");
+                else if (Game.Solution[line, j] != 0)
+                    W($" {Game.Solution[line, j]} ", selectColor);
                 else
                     W("   ");
             }
@@ -75,34 +89,42 @@ namespace ConsoleSudoku.Screens {
             key = ReadKeyInfo();
 
             // add value to solution if selected field is not part of the sudoku
-            if (KeyIsNumeric(key.Key) && sudoku[selected.Item1, selected.Item2] == 0) {
-                solution[selected.Item1, selected.Item2] = int.Parse(key.KeyChar.ToString());
+            if (KeyIsNumeric(key.Key) && Game.Hints[selected.Item1, selected.Item2] == 0) {
+                Game.Solution[selected.Item1, selected.Item2] = int.Parse(key.KeyChar.ToString());
                 return;
             }
 
             // remove value from solution if delete or backspace is pressed
-            if ((key.Key == ConsoleKey.Backspace || key.Key == ConsoleKey.Delete) && sudoku[selected.Item1, selected.Item2] == 0) {
-                solution[selected.Item1, selected.Item2] = 0;
+            if ((key.Key == ConsoleKey.Backspace || key.Key == ConsoleKey.Delete) && Game.Hints[selected.Item1, selected.Item2] == 0) {
+                Game.Solution[selected.Item1, selected.Item2] = 0;
                 return;
             }
 
-            // arrow navigation keys 
+            // arrow navigation keys
             switch (key.Key) {
                 case ConsoleKey.UpArrow:
                     if (selected.Item1 > 0)
                         selected.Item1--;
+                    else
+                        skipRedraw = true;
                     break;
                 case ConsoleKey.DownArrow:
                     if (selected.Item1 < 8)
                         selected.Item1++;
+                    else
+                        skipRedraw = true;
                     break;
                 case ConsoleKey.LeftArrow:
                     if (selected.Item2 > 0)
                         selected.Item2--;
+                    else
+                        skipRedraw = true;
                     break;
                 case ConsoleKey.RightArrow:
                     if (selected.Item2 < 8)
                         selected.Item2++;
+                    else
+                        skipRedraw = true;
                     break;
                 case ConsoleKey.Enter:
                     exit = true;
@@ -112,7 +134,7 @@ namespace ConsoleSudoku.Screens {
 
         protected override void ExecuteActions() {
             base.ExecuteActions();
-            VerifySudokuSolvedAction verifySudokuSolvedAction = new VerifySudokuSolvedAction(sudoku,solution);
+            VerifySudokuSolvedAction verifySudokuSolvedAction = new VerifySudokuSolvedAction(Game.Hints, Game.Solution);
         }
 
         private bool KeyIsNumeric(ConsoleKey key) {
