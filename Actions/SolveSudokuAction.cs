@@ -9,12 +9,14 @@ namespace ConsoleSudoku.Actions {
 
         private int[,] _sudoku = new int[9, 9];
 
+        public bool Solved { get; private set; }
+
         public SolveSudokuAction(int[,] sudoku) {
             _sudoku = sudoku;
         }
 
         public void Execute() {
-            Solve();
+            Solved = Solve();
         }
 
         /// <summary>
@@ -31,7 +33,7 @@ namespace ConsoleSudoku.Actions {
                             if (IsValid(d, i, j)) {
                                 _sudoku[i, j] = d;
                                 if (Solve())
-                                    return true;
+                                    return SudokuIsValid();
                                 else
                                     _sudoku[i, j] = 0;
                             }
@@ -41,6 +43,16 @@ namespace ConsoleSudoku.Actions {
                 }
             }
 
+            return SudokuIsValid();
+        }
+
+        private bool SudokuIsValid() {
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (!IsValid(_sudoku[i, j], i, j))
+                        return false;
+                }
+            }
             return true;
         }
 
