@@ -156,8 +156,8 @@ namespace ConsoleSudoku.Actions {
                 // check if the next position is digable, if not try the next position
                 if (digable[x, y])
                     return (x, y);
-                else
-                    currentPosition = (x, y);
+                //else
+                //    currentPosition = (x, y);
             }
         }
 

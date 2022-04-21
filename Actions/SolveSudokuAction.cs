@@ -78,6 +78,7 @@ namespace ConsoleSudoku.Actions {
                     return false;
             }
 
+            // check if section is valid
             for (int i = 3 * (x / 3); i < (3 * (x / 3)) + 3; i++) {
                 for (int j = 3 * (y / 3); j < (3 * (y / 3)) + 3; j++) {
                     if (i == x && j == y) continue;

@@ -85,18 +85,21 @@ namespace ConsoleSudoku.Screens {
         public void Show() {
             Console.CursorVisible = false;
             do {
-                randomColor = GetRandomConsoleColor();
-                if (!skipRedraw) {
-                    Console.Clear();
-                    ShowTitle();
-                    Draw();
-                }
-                skipRedraw = false;
-                HandleInput();
-                ExecuteActions();
+                UpdateShow();
             } while (!exit);
         }
 
+        protected void UpdateShow() {
+            randomColor = GetRandomConsoleColor();
+            if (!skipRedraw) {
+                Console.Clear();
+                ShowTitle();
+                Draw();
+            }
+            skipRedraw = false;
+            HandleInput();
+            ExecuteActions();
+        }
 
         protected abstract void Draw();
         protected abstract void HandleInput();
