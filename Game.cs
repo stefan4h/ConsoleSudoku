@@ -18,6 +18,7 @@ namespace ConsoleSudoku {
         public static int[,] Completed { get; set; }
         public static int[,] Hints { get; set; }
         public static int[,] Solution { get; set; }
+        public static int Progress = 0; // to messure the time progress
 
         public static void Play() {
             DifficultyMenuScreen difficultyMenu = new DifficultyMenuScreen();
@@ -28,7 +29,7 @@ namespace ConsoleSudoku {
             generateCompleteSudokuAction.Execute();
 
 
-            Solution = new int[9,9];
+            Solution = new int[9, 9];
             GameBoardScreen board = new GameBoardScreen();
             board.Show();
         }

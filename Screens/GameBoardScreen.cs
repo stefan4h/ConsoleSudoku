@@ -8,7 +8,6 @@ namespace ConsoleSudoku.Screens {
 
         private (int, int) selected = (4, 4);
         private Timer timer = new Timer(30000); // trigger timer event every 30 seconds
-        private int progress = 0; // to messure the time progress
         private readonly int maxProgress = 84; // set max time to 7 minutes
 
         protected override void Draw() {
@@ -17,6 +16,8 @@ namespace ConsoleSudoku.Screens {
                 timer.Elapsed += new ElapsedEventHandler(TimerEvent);
                 timer.Enabled = true;
             }
+
+            W("Press "); W("ESC", color: randomColor); W(" to open the Game Menu\n\n");
 
             // draw sudoku
             for (int i = 0; i < 9; i++) {
@@ -34,19 +35,19 @@ namespace ConsoleSudoku.Screens {
                         DrawBorder(9, j, "╚", "╧", "╩", "═══", "╝");
                     }
             }
-            
+
             CW();
 
             // draw progress bar
             W("   ");
-            W(GetStringAsRepeatedChar('█', progress), color: randomColor);
-            W(GetStringAsRepeatedChar('░', maxProgress - progress) + "   ");
+            W(GetStringAsRepeatedChar('█', Game.Progress), color: randomColor);
+            W(GetStringAsRepeatedChar('░', maxProgress - Game.Progress) + "   ");
         }
 
         private void TimerEvent(object source, ElapsedEventArgs e) {
-            if (progress >= maxProgress) return;
+            if (Game.Progress >= maxProgress) return;
 
-            progress += 6;
+            Game.Progress += 6;
             UpdateShow();
         }
 
@@ -56,28 +57,28 @@ namespace ConsoleSudoku.Screens {
                 W(left,
                         selected.Item2 == 0 &&
                         (selected.Item1 == x || selected.Item1 + 1 == x) ?
-                        selectColor :
+                        randomColor :
                         defaultColor
                         );
             } else if (y % 3 == 0)
                 W(middle,
                     (selected.Item2 == y || selected.Item2 + 1 == y) &&
                     (selected.Item1 == x || selected.Item1 + 1 == x) ?
-                    selectColor :
+                    randomColor :
                     defaultColor
                     );
             else
                 W(normal,
                     (selected.Item2 == y || selected.Item2 + 1 == y) &&
                     (selected.Item1 == x || selected.Item1 + 1 == x) ?
-                    selectColor :
+                    randomColor :
                     defaultColor
                     );
 
             W(line,
                 selected.Item2 == y &&
                 (selected.Item1 == x || selected.Item1 + 1 == x) ?
-                selectColor :
+                randomColor :
                 defaultColor
                 );
 
@@ -85,7 +86,7 @@ namespace ConsoleSudoku.Screens {
                 W(right + "\n",
                     selected.Item2 == 8 &&
                     (selected.Item1 == x || selected.Item1 + 1 == x) ?
-                    selectColor :
+                    randomColor :
                     defaultColor
                     );
         }
@@ -95,18 +96,18 @@ namespace ConsoleSudoku.Screens {
             for (int j = 0; j < 9; j++) {
                 if (j % 3 == 0) {
                     if (j == 0) W(GetStringAsRepeatedChar(' ', 26)); // to center the sudoku
-                    W("║", (selected.Item2 == j || selected.Item2 + 1 == j) && selected.Item1 == line ? selectColor : defaultColor);
+                    W("║", (selected.Item2 == j || selected.Item2 + 1 == j) && selected.Item1 == line ? randomColor : defaultColor);
                 } else
-                    W("|", (selected.Item2 == j || selected.Item2 + 1 == j) && selected.Item1 == line ? selectColor : defaultColor);
+                    W("|", (selected.Item2 == j || selected.Item2 + 1 == j) && selected.Item1 == line ? randomColor : defaultColor);
 
                 if (Game.Hints[line, j] != 0)
                     W($" {Game.Hints[line, j]} ");
                 else if (Game.Solution[line, j] != 0)
-                    W($" {Game.Solution[line, j]} ", selectColor);
+                    W($" {Game.Solution[line, j]} ", randomColor);
                 else
                     W("   ");
             }
-            W("║", selected.Item2 == 8 && selected.Item1 == line ? selectColor : defaultColor);
+            W("║", selected.Item2 == 8 && selected.Item1 == line ? randomColor : defaultColor);
             CW(sb);
         }
 
@@ -153,8 +154,10 @@ namespace ConsoleSudoku.Screens {
                     else
                         skipRedraw = true;
                     break;
-                case ConsoleKey.Enter:
-                    exit = true;
+                case ConsoleKey.Escape:
+                    timer.Enabled = false;
+                    GameMenuScreen gameMenuScreen = new GameMenuScreen();
+                    gameMenuScreen.Show();
                     break;
             }
         }

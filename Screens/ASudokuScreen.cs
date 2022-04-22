@@ -10,7 +10,7 @@ namespace ConsoleSudoku.Screens {
         protected const int LINE_LENGTH = 90;
         protected ConsoleColor randomColor;
         protected const ConsoleColor defaultColor = ConsoleColor.White;
-        protected const ConsoleColor selectColor = ConsoleColor.Blue;
+        // protected const ConsoleColor selectColor = ConsoleColor.Blue;
         protected bool exit = false;
         protected bool skipRedraw = false;
 
@@ -60,7 +60,10 @@ namespace ConsoleSudoku.Screens {
 
             ConsoleColor color = (ConsoleColor)rnd.Next(0, Enum.GetNames(typeof(ConsoleColor)).Length);
 
-            while (color == ConsoleColor.Black)
+            while (color == ConsoleColor.Black || 
+                color == ConsoleColor.White ||
+                color == ConsoleColor.DarkGray || 
+                color == ConsoleColor.Gray)
                 color = (ConsoleColor)rnd.Next(0, Enum.GetNames(typeof(ConsoleColor)).Length);
 
             return color;
