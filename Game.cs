@@ -1,4 +1,5 @@
 ﻿using ConsoleSudoku.Actions;
+using ConsoleSudoku.Entities;
 using ConsoleSudoku.Screens;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace ConsoleSudoku {
 
     public static class Game {
         public static ESudokuDifficulty Difficulty { get; private set; }
-        public static int[,] Completed { get; set; }
-        public static int[,] Hints { get; set; }
-        public static int[,] Solution { get; set; }
-        public static int Progress = 0; // to messure the time progress
+        public static int[,] Completed { get; set; } // completed sudoku to compare in the end
+        public static int[,] Hints { get; set; } // to store all the hints of the sudoku
+        public static int[,] Solution { get; set; } = new int[9, 9]; // to store the user input for the sudoku solution
+        public static int Progress { get; set; } = 0; // to messure the time progress
+        public static Stack<Move> Undo { get; set; } = new Stack<Move>(); // undo stack
+        public static Stack<Move> Redo { get; set; } = new Stack<Move>();
 
         public static void Play() {
             DifficultyMenuScreen difficultyMenu = new DifficultyMenuScreen();
@@ -28,8 +31,6 @@ namespace ConsoleSudoku {
             var generateCompleteSudokuAction = new GenerateCompleteSudokuAction();
             generateCompleteSudokuAction.Execute();
 
-
-            Solution = new int[9, 9];
             GameBoardScreen board = new GameBoardScreen();
             board.Show();
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleSudoku.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,10 @@ namespace ConsoleSudoku.Screens {
 
         public GameMenuScreen() {
             selectedIndex = 0;
-            _choices = new List<string> { "Get a Hint", "Undo" };
+            _choices = new List<string> { "Get a Hint" };
+
+            if (Game.Undo.Count != 0) _choices.Add("Undo Last Move");
+            if (Game.Redo.Count != 0) _choices.Add("Redo Last Move");
         }
 
         protected override void Draw() {
@@ -36,13 +40,37 @@ namespace ConsoleSudoku.Screens {
                         selectedIndex++;
                     break;
                 case ConsoleKey.Enter:
+                    ChoseMenuOption();
                     exit = true;
                     break;
                 case ConsoleKey.Escape:
-                    GameBoardScreen gameBoardScreen = new GameBoardScreen();
-                    gameBoardScreen.Show();
+                    exit = true;
                     break;
             }
+        }
+
+        private void ChoseMenuOption() {
+            switch (_choices[selectedIndex]) {
+                case "Get a Hint": GetHint(); break;
+                case "Undo Last Move": Undo(); break;
+                case "Redo Last Move": Redo(); break;
+            }
+        }
+
+        private void GetHint() {
+
+        }
+
+        private void Undo() {
+            Move move = Game.Undo.Pop();
+            Game.Redo.Push(move);
+            Game.Solution[move.X, move.Y] = move.OldValue;
+        }
+
+        private void Redo() {
+            Move move = Game.Redo.Pop();
+            Game.Undo.Push(move);
+            Game.Solution[move.X, move.Y] = move.NewValue;
         }
     }
 }

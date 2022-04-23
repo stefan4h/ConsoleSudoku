@@ -1,4 +1,5 @@
 ﻿using ConsoleSudoku.Actions;
+using ConsoleSudoku.Entities;
 using System;
 using System.Text;
 using System.Timers;
@@ -118,12 +119,28 @@ namespace ConsoleSudoku.Screens {
 
             // add value to solution if selected field is not part of the sudoku
             if (KeyIsNumeric(key.Key) && Game.Hints[selected.Item1, selected.Item2] == 0) {
-                Game.Solution[selected.Item1, selected.Item2] = int.Parse(key.KeyChar.ToString());
+                int inputValue = int.Parse(key.KeyChar.ToString());
+                // add move to undo stack
+                Game.Undo.Push(new Move {
+                    X = selected.Item1,
+                    Y = selected.Item2,
+                    OldValue = Game.Solution[selected.Item1, selected.Item2],
+                    NewValue = inputValue
+                });
+                Game.Redo.Clear(); // reset redo stack
+                Game.Solution[selected.Item1, selected.Item2] = inputValue;
                 return;
             }
 
             // remove value from solution if delete or backspace is pressed
             if ((key.Key == ConsoleKey.Backspace || key.Key == ConsoleKey.Delete) && Game.Hints[selected.Item1, selected.Item2] == 0) {
+                Game.Undo.Push(new Move {
+                    X = selected.Item1,
+                    Y = selected.Item2,
+                    OldValue = Game.Solution[selected.Item1, selected.Item2],
+                    NewValue = 0
+                });
+                Game.Redo.Clear(); // reset redo stack
                 Game.Solution[selected.Item1, selected.Item2] = 0;
                 return;
             }
