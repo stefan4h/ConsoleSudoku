@@ -18,7 +18,7 @@ namespace ConsoleSudoku.Screens {
                 timer.Enabled = true;
             }
 
-            W("Press "); W("ESC", color: randomColor); W(" to open the Game Menu\n\n");
+            W("Press "); W("ESC", color: randomColor); W($" to open the Game Menu{GetStringAsRepeatedChar(' ', 38)}Additional Hints: {Game.AdditionalHintCount}\n\n");
 
             // draw sudoku
             for (int i = 0; i < 9; i++) {
@@ -119,7 +119,17 @@ namespace ConsoleSudoku.Screens {
 
             // add value to solution if selected field is not part of the sudoku
             if (KeyIsNumeric(key.Key) && Game.Hints[selected.Item1, selected.Item2] == 0) {
-                int inputValue = int.Parse(key.KeyChar.ToString());
+                int inputValue = 0;
+                // to catch value that might occur when transforming the key input to an integer
+                try {
+                    inputValue = int.Parse(key.KeyChar.ToString());
+                } catch {
+                    return;
+                }
+
+                // dont do anything if the input value is the same as the current value
+                if (Game.Solution[selected.Item1, selected.Item2] == inputValue) return;
+
                 // add move to undo stack
                 Game.Undo.Push(new Move {
                     X = selected.Item1,
@@ -133,7 +143,7 @@ namespace ConsoleSudoku.Screens {
             }
 
             // remove value from solution if delete or backspace is pressed
-            if ((key.Key == ConsoleKey.Backspace || key.Key == ConsoleKey.Delete) && Game.Hints[selected.Item1, selected.Item2] == 0) {
+            if ((key.Key == ConsoleKey.Backspace || key.Key == ConsoleKey.Delete) && Game.Hints[selected.Item1, selected.Item2] == 0 && Game.Solution[selected.Item1, selected.Item2] != 0) {
                 Game.Undo.Push(new Move {
                     X = selected.Item1,
                     Y = selected.Item2,
@@ -183,6 +193,10 @@ namespace ConsoleSudoku.Screens {
             base.ExecuteActions();
             VerifySudokuSolvedAction verifySudokuSolvedAction = new VerifySudokuSolvedAction();
             verifySudokuSolvedAction.Execute();
+
+            if (verifySudokuSolvedAction.Solved) {
+                CW("Solved");
+            }
         }
 
         private bool KeyIsNumeric(ConsoleKey key) {

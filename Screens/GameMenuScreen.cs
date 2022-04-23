@@ -13,7 +13,7 @@ namespace ConsoleSudoku.Screens {
 
         public GameMenuScreen() {
             selectedIndex = 0;
-            _choices = new List<string> { "Get a Hint" };
+            _choices = new List<string> { "Get an Additional Hint" };
 
             if (Game.Undo.Count != 0) _choices.Add("Undo Last Move");
             if (Game.Redo.Count != 0) _choices.Add("Redo Last Move");
@@ -41,7 +41,7 @@ namespace ConsoleSudoku.Screens {
                     break;
                 case ConsoleKey.Enter:
                     switch (_choices[selectedIndex]) {
-                        case "Get a Hint": GetHint(); break;
+                        case "Get an Additional Hint": GetHint(); break;
                         case "Undo Last Move": Undo(); break;
                         case "Redo Last Move": Redo(); break;
                     }
@@ -57,7 +57,36 @@ namespace ConsoleSudoku.Screens {
         /// Give the player another hint
         /// </summary>
         private void GetHint() {
+            Random rnd = new Random();
+            int startX = rnd.Next(0, 8);
+            int startY = rnd.Next(0, 8);
 
+
+            // start at a random position in the grid and get first blank cell as tip
+            for (int i = startX; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (i == startX && j < startY) continue;
+                    if (Game.Solution[i, j] == 0 && Game.Hints[i, j] == 0) {
+                        Game.AdditionalHintCount++;
+                        Game.Hints[i, j] = Game.Completed[i, j];
+                        Game.Redo.Clear(); // clear redo stack after getting a hint
+                        return;
+                    }
+                }
+            }
+
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (i == startX && j > startY) break;
+                    if (Game.Solution[i, j] == 0 && Game.Hints[i, j] == 0) {
+                        Game.AdditionalHintCount++;
+                        Game.Hints[i, j] = Game.Completed[i, j];
+                        Game.Redo.Clear(); // clear redo stack after getting a hint
+                        return;
+                    }
+                }
+                if (i == startX) break;
+            }
         }
 
         /// <summary>

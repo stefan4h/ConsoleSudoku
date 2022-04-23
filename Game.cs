@@ -21,7 +21,8 @@ namespace ConsoleSudoku {
         public static int[,] Solution { get; set; } = new int[9, 9]; // to store the user input for the sudoku solution
         public static int Progress { get; set; } = 0; // to messure the time progress
         public static Stack<Move> Undo { get; set; } = new Stack<Move>(); // undo stack
-        public static Stack<Move> Redo { get; set; } = new Stack<Move>();
+        public static Stack<Move> Redo { get; set; } = new Stack<Move>(); // redo stack
+        public static int AdditionalHintCount { get; set; } = 0;
 
         public static void Play() {
             DifficultyMenuScreen difficultyMenu = new DifficultyMenuScreen();

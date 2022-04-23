@@ -5,35 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ConsoleSudoku.Actions {
+    /// <summary>
+    /// Checks if the sudoku has been solved
+    /// </summary>
     public class VerifySudokuSolvedAction : ISudokuAction {
 
-        private bool solved;
-        private int[,] sudoku;
-        private int[,] solution;
-        public VerifySudokuSolvedAction(int[,] sudoku, int[,] solution) {
-            this.solved = false;
-            this.solution = sudoku;
-            this.solution = solution;
-        }
+        public bool Solved { get; private set; } = false;
 
-        public bool GetSolved() => solved;
-
-        // TODO: get rid of private arrays in class and compare the static from Game to the completed grid
         public void Execute() {
-            // inital check if sudoku is complete to avoid unnecessary checks
-            if (!NoEmptyField())
-                return;
-
-        }
-
-        private bool NoEmptyField() {
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
-                    if (sudoku[i, j] == 0 || solution[i, j] == 0)
-                        return false;
+                    // first check if the value is set
+                    // if it is set check if the solution matched the completed sudoku
+                    if ((Game.Hints[i, j] == 0 && Game.Solution[i, j] == 0) ||
+                        (Game.Solution[i, j] != 0 && Game.Completed[i, j] != Game.Solution[i, j])) {
+                        Solved = false;
+                        return;
+                    }
                 }
-
-            return true;
+            }
+            Solved = true;
         }
     }
 }
