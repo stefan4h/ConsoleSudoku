@@ -40,7 +40,11 @@ namespace ConsoleSudoku.Screens {
                         selectedIndex++;
                     break;
                 case ConsoleKey.Enter:
-                    ChoseMenuOption();
+                    switch (_choices[selectedIndex]) {
+                        case "Get a Hint": GetHint(); break;
+                        case "Undo Last Move": Undo(); break;
+                        case "Redo Last Move": Redo(); break;
+                    }
                     exit = true;
                     break;
                 case ConsoleKey.Escape:
@@ -49,24 +53,25 @@ namespace ConsoleSudoku.Screens {
             }
         }
 
-        private void ChoseMenuOption() {
-            switch (_choices[selectedIndex]) {
-                case "Get a Hint": GetHint(); break;
-                case "Undo Last Move": Undo(); break;
-                case "Redo Last Move": Redo(); break;
-            }
-        }
-
+        /// <summary>
+        /// Give the player another hint
+        /// </summary>
         private void GetHint() {
 
         }
 
+        /// <summary>
+        /// Undo the last move the player made
+        /// </summary>
         private void Undo() {
             Move move = Game.Undo.Pop();
             Game.Redo.Push(move);
             Game.Solution[move.X, move.Y] = move.OldValue;
         }
 
+        /// <summary>
+        /// Redo a move that has previously been undone
+        /// </summary>
         private void Redo() {
             Move move = Game.Redo.Pop();
             Game.Undo.Push(move);

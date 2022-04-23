@@ -181,7 +181,8 @@ namespace ConsoleSudoku.Screens {
 
         protected override void ExecuteActions() {
             base.ExecuteActions();
-            VerifySudokuSolvedAction verifySudokuSolvedAction = new VerifySudokuSolvedAction(Game.Hints, Game.Solution);
+            VerifySudokuSolvedAction verifySudokuSolvedAction = new VerifySudokuSolvedAction();
+            verifySudokuSolvedAction.Execute();
         }
 
         private bool KeyIsNumeric(ConsoleKey key) {
