@@ -8,6 +8,7 @@ namespace ConsoleSudoku.Entities {
     /// <summary>
     /// Represents a move the player does during a game of sudoku
     /// </summary>
+    [Serializable]
     public class Move {
         public int X { get; set; } // row
         public int Y { get; set; } // col

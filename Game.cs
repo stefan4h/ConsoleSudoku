@@ -15,7 +15,7 @@ namespace ConsoleSudoku {
     }
 
     public static class Game {
-        public static ESudokuDifficulty Difficulty { get; private set; }
+        public static ESudokuDifficulty Difficulty { get; set; }
         public static int[,] Completed { get; set; } // completed sudoku to compare in the end
         public static int[,] Hints { get; set; } // to store all the hints of the sudoku
         public static int[,] Solution { get; set; } = new int[9, 9]; // to store the user input for the sudoku solution
@@ -25,15 +25,19 @@ namespace ConsoleSudoku {
         public static int AdditionalHintCount { get; set; } = 0;
 
         public static void Play() {
-            DifficultyMenuScreen difficultyMenu = new DifficultyMenuScreen();
-            difficultyMenu.Show();
-            Difficulty = difficultyMenu.GetDifficulty();
+            while (true) {
+                StartMenuScreen startMenuScreen = new StartMenuScreen();
+                startMenuScreen.Show();
 
-            var generateCompleteSudokuAction = new GenerateCompleteSudokuAction();
-            generateCompleteSudokuAction.Execute();
+            }
+        }
 
-            GameBoardScreen board = new GameBoardScreen();
-            board.Show();
+        public static void Reset() {
+            Solution = new int[9, 9];
+            Progress = 0;
+            Undo = new Stack<Move>();
+            Redo = new Stack<Move>();
+            AdditionalHintCount = 0;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleSudoku.Actions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -151,6 +152,10 @@ namespace ConsoleSudoku.Screens {
             skipRedraw = false;
             HandleInput();
             ExecuteActions();
+
+            // save current game progress
+            SaveCurrentSudokuAction saveCurrentSudokuAction = new SaveCurrentSudokuAction();
+            saveCurrentSudokuAction.Execute();
         }
 
         /// <summary>
