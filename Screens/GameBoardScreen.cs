@@ -18,7 +18,8 @@ namespace ConsoleSudoku.Screens {
                 timer.Enabled = true;
             }
 
-            W("Press "); W("ESC", color: randomColor); W($" to open the Game Menu{GetStringAsRepeatedChar(' ', 38)}Additional Hints: {Game.AdditionalHintCount}\n\n");
+            W("Press "); W("ESC", color: randomColor); W($" to open the Game Menu{GetStringAsRepeatedChar(' ', 38)}Additional Hints: {Game.AdditionalHintCount}\n");
+            CW($"{GetStringAsRepeatedChar(' ', 73)}Empty Cells:  {Game.HolesToFill()}");
 
             // draw sudoku
             for (int i = 0; i < 9; i++) {
@@ -185,6 +186,9 @@ namespace ConsoleSudoku.Screens {
                     timer.Enabled = false;
                     GameMenuScreen gameMenuScreen = new GameMenuScreen();
                     gameMenuScreen.Show();
+                    if (gameMenuScreen.Exit) {
+                        exit = true;
+                    }
                     break;
             }
         }

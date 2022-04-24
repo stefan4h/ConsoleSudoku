@@ -10,6 +10,7 @@ namespace ConsoleSudoku.Screens {
 
         private List<string> _choices;
         private int selectedIndex;
+        public bool Exit { get; set; } = false;
 
         public GameMenuScreen() {
             selectedIndex = 0;
@@ -17,6 +18,8 @@ namespace ConsoleSudoku.Screens {
 
             if (Game.Undo.Count != 0) _choices.Add("Undo Last Move");
             if (Game.Redo.Count != 0) _choices.Add("Redo Last Move");
+
+            _choices.Add("Go Back to Start Menu");
         }
 
         protected override void Draw() {
@@ -44,6 +47,7 @@ namespace ConsoleSudoku.Screens {
                         case "Get an Additional Hint": GetHint(); break;
                         case "Undo Last Move": Undo(); break;
                         case "Redo Last Move": Redo(); break;
+                        case "Go Back to Start Menu": Exit = true; break;
                     }
                     exit = true;
                     break;

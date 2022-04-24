@@ -8,12 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ConsoleSudoku {
+    /// <summary>
+    /// Defines the difficulty of the sudoku
+    /// </summary>
     public enum ESudokuDifficulty {
         Easy,
         Medium,
         Hard
     }
 
+    /// <summary>
+    /// Represents the current game played
+    /// </summary>
     public static class Game {
         public static ESudokuDifficulty Difficulty { get; set; }
         public static int[,] Completed { get; set; } // completed sudoku to compare in the end
@@ -24,20 +30,35 @@ namespace ConsoleSudoku {
         public static Stack<Move> Redo { get; set; } = new Stack<Move>(); // redo stack
         public static int AdditionalHintCount { get; set; } = 0;
 
+        /// <summary>
+        /// Starts the Game
+        /// </summary>
         public static void Play() {
             while (true) {
                 StartMenuScreen startMenuScreen = new StartMenuScreen();
                 startMenuScreen.Show();
-
             }
         }
 
+        /// <summary>
+        /// Resets the Game
+        /// </summary>
         public static void Reset() {
             Solution = new int[9, 9];
             Progress = 0;
             Undo = new Stack<Move>();
             Redo = new Stack<Move>();
             AdditionalHintCount = 0;
+        }
+
+        public static int HolesToFill() {
+            int count = 0;
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (Hints[i, j] == 0 && Solution[i, j] == 0) count++;
+                }
+            }
+            return count;
         }
     }
 }
