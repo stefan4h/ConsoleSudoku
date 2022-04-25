@@ -68,15 +68,21 @@ namespace ConsoleSudoku.Screens {
                         case "Resume Game": ResumeGame(); break;
                         case "Start New Game": StartNewGame(); break;
                         case "Exit": Environment.Exit(0); break;
-                    }   
+                    }
                     exit = true;
                     break;
+                default: skipRedraw = true; break;
             }
         }
 
         private void ResumeGame() {
             GameBoardScreen board = new GameBoardScreen();
             board.Show();
+
+            if (board.Solved) {
+                FinishedGameScreen finishedGameScreen = new FinishedGameScreen();
+                finishedGameScreen.Show();
+            }
         }
 
         private void StartNewGame() {
@@ -91,6 +97,11 @@ namespace ConsoleSudoku.Screens {
 
             GameBoardScreen board = new GameBoardScreen();
             board.Show();
+
+            if (board.Solved) {
+                FinishedGameScreen finishedGameScreen = new FinishedGameScreen();
+                finishedGameScreen.Show();
+            }
         }
-   }
+    }
 }

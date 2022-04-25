@@ -7,6 +7,7 @@ using System.Timers;
 namespace ConsoleSudoku.Screens {
     public class GameBoardScreen : ASudokuScreen {
 
+        public bool Solved { get; private set; } = false;
         private (int, int) selected = (4, 4);
         private Timer timer = new Timer(30000); // trigger timer event every 30 seconds
         private readonly int maxProgress = 84; // set max time to 7 minutes
@@ -198,6 +199,7 @@ namespace ConsoleSudoku.Screens {
                         timer.Enabled = false;
                     }
                     break;
+                default: skipRedraw = true; break;
             }
         }
 
@@ -207,7 +209,9 @@ namespace ConsoleSudoku.Screens {
             verifySudokuSolvedAction.Execute();
 
             if (verifySudokuSolvedAction.Solved) {
-                CW("Solved");
+                Solved = true;
+                exit = true;
+                timer.Enabled = false;
             }
         }
 

@@ -60,5 +60,10 @@ namespace ConsoleSudoku {
             }
             return count;
         }
+
+        public static int GetScore() {
+            if (Progress >= 84) return 0;
+            return (84 - Progress - (AdditionalHintCount * 5)) * 10;
+        }
     }
 }
