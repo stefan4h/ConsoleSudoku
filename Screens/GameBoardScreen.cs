@@ -20,6 +20,7 @@ namespace ConsoleSudoku.Screens {
 
             W("Press "); W("ESC", color: randomColor); W($" to open the Game Menu{GetStringAsRepeatedChar(' ', 38)}Additional Hints: {Game.AdditionalHintCount}\n");
             CW($"{GetStringAsRepeatedChar(' ', 73)}Empty Cells:  {Game.HolesToFill()}");
+            CW($"{GetStringAsRepeatedChar(' ', 77 - Game.Difficulty.ToString().Length)}Difficulty: {Game.Difficulty}");
 
             // draw sudoku
             for (int i = 0; i < 9; i++) {
@@ -47,9 +48,14 @@ namespace ConsoleSudoku.Screens {
         }
 
         private void TimerEvent(object source, ElapsedEventArgs e) {
-            if (Game.Progress >= maxProgress) return;
+            if (Game.Progress >= maxProgress) return; // dont add to progress if time is upp
 
-            Game.Progress += 6;
+            // increase progress at differnt speed for different difficulties
+            switch (Game.Difficulty) {
+                case ESudokuDifficulty.Easy: Game.Progress += 6; break;
+                case ESudokuDifficulty.Medium: Game.Progress += 4; break;
+                case ESudokuDifficulty.Hard: Game.Progress += 2; break;
+            }
             UpdateShow();
         }
 
@@ -186,8 +192,10 @@ namespace ConsoleSudoku.Screens {
                     timer.Enabled = false;
                     GameMenuScreen gameMenuScreen = new GameMenuScreen();
                     gameMenuScreen.Show();
+                    timer.Enabled = true;
                     if (gameMenuScreen.Exit) {
                         exit = true;
+                        timer.Enabled = false;
                     }
                     break;
             }

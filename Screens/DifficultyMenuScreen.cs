@@ -20,6 +20,9 @@ namespace ConsoleSudoku.Screens {
 
             for (int i = 0; i < difficulties.Count; i++)
                 CW(difficulties[i], i == selectedIndex ? randomColor : defaultColor);
+
+            CW();
+            CW();
         }
 
         protected override void HandleInput() {
