@@ -82,6 +82,9 @@ namespace ConsoleSudoku.Screens {
             if (board.Solved) {
                 FinishedGameScreen finishedGameScreen = new FinishedGameScreen();
                 finishedGameScreen.Show();
+                Game.Reset();
+                _choices.Remove("Resume Game");
+                UpdateShow();
             }
         }
 
@@ -101,6 +104,9 @@ namespace ConsoleSudoku.Screens {
             if (board.Solved) {
                 FinishedGameScreen finishedGameScreen = new FinishedGameScreen();
                 finishedGameScreen.Show();
+                Game.Reset();
+                _choices.Remove("Resume Game");
+                UpdateShow();
             }
         }
     }

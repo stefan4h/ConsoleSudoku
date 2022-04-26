@@ -26,18 +26,26 @@ namespace ConsoleSudoku.Screens {
             CW();
             CW();
             if (Game.GetScore() > 0) {
-                W($"You finished the Sudoku with a Score of "); W(Game.GetScore().ToString(), randomColor);
+                W($"You finished the Sudoku with a Score of "); W(Game.GetScore().ToString() + "\n", randomColor);
                 W("State your Name for the Score Board: ");
-                Console.ReadLine();
-            } else
-                CW("You solved the Sudoku but it took you too long! Try to finish it faster next time to get a rank on the score board");
+                string name = Console.ReadLine();
+            } else {
+                CW("You solved the Sudoku but it took you too long!");
+                CW("Try to finish it faster next time to get a rank on the score board");
+            }
+
 
             CW();
             CW();
         }
 
         protected override void HandleInput() {
-            throw new NotImplementedException();
+            if (Game.GetScore() > 0) {
+                exit = true;
+                return;
+            }
+            exit = true;
+            ReadKeyInfo();
         }
     }
 }

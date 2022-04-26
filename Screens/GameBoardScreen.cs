@@ -205,6 +205,9 @@ namespace ConsoleSudoku.Screens {
 
         protected override void ExecuteActions() {
             base.ExecuteActions();
+            // save current game progress
+            SaveCurrentSudokuAction saveCurrentSudokuAction = new SaveCurrentSudokuAction();
+            saveCurrentSudokuAction.Execute();
             VerifySudokuSolvedAction verifySudokuSolvedAction = new VerifySudokuSolvedAction();
             verifySudokuSolvedAction.Execute();
 

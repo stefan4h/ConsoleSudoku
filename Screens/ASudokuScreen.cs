@@ -152,10 +152,6 @@ namespace ConsoleSudoku.Screens {
             skipRedraw = false;
             HandleInput();
             ExecuteActions();
-
-            // save current game progress
-            SaveCurrentSudokuAction saveCurrentSudokuAction = new SaveCurrentSudokuAction();
-            saveCurrentSudokuAction.Execute();
         }
 
         /// <summary>

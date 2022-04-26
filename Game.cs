@@ -3,6 +3,7 @@ using ConsoleSudoku.Entities;
 using ConsoleSudoku.Screens;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,11 +45,14 @@ namespace ConsoleSudoku {
         /// Resets the Game
         /// </summary>
         public static void Reset() {
+            Completed = null;
+            Hints = null;
             Solution = new int[9, 9];
             Progress = 0;
             Undo = new Stack<Move>();
             Redo = new Stack<Move>();
             AdditionalHintCount = 0;
+            File.Delete("current.bin");
         }
 
         public static int HolesToFill() {
