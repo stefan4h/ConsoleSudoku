@@ -30,6 +30,13 @@ namespace ConsoleSudoku {
         public static Stack<Move> Undo { get; set; } = new Stack<Move>(); // undo stack
         public static Stack<Move> Redo { get; set; } = new Stack<Move>(); // redo stack
         public static int AdditionalHintCount { get; set; } = 0;
+        private static List<FinishedGame> _scoreBoard;
+
+        public static List<FinishedGame> ScoreBoard {
+            get { return _scoreBoard.OrderByDescending(fg => fg.Score).ToList(); }
+            set { _scoreBoard = value; }
+        }
+
 
         /// <summary>
         /// Starts the Game
@@ -55,6 +62,10 @@ namespace ConsoleSudoku {
             File.Delete("current.bin");
         }
 
+        /// <summary>
+        /// Returns the number of how many empty cells are in the grid
+        /// </summary>
+        /// <returns>Number of empty cells (Holes) in the grid</returns>
         public static int HolesToFill() {
             int count = 0;
             for (int i = 0; i < 9; i++) {
@@ -65,9 +76,13 @@ namespace ConsoleSudoku {
             return count;
         }
 
+        /// <summary>
+        /// Calculates the score of a game
+        /// </summary>
+        /// <returns>The score of the sudoku game</returns>
         public static int GetScore() {
-            if (Progress >= 84) return 0;
-            return (84 - Progress - (AdditionalHintCount * 5)) * 10;
+            if (Progress >= 84) return 0; // the score is 0 when the progress (the time) progressed too far
+            return Math.Max(0, (84 - Progress - (AdditionalHintCount * 5)) * 10);
         }
     }
 }

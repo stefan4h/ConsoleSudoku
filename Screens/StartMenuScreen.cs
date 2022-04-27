@@ -35,11 +35,20 @@ namespace ConsoleSudoku.Screens {
 
                     _choices.Add("Resume Game");
                 }
-            } catch {
-
-            }
+            } catch { }
 
             _choices.Add("Start New Game");
+
+            try {
+
+                using (Stream fileStream = File.OpenRead("scoreboard.bin")) {
+                    BinaryFormatter deserializer = new BinaryFormatter();
+                    Game.ScoreBoard = (List<FinishedGame>)deserializer.Deserialize(fileStream);
+
+                    _choices.Add("Score Board");
+                }
+            } catch { }
+
             _choices.Add("Exit");
         }
 
@@ -67,6 +76,7 @@ namespace ConsoleSudoku.Screens {
                     switch (_choices[selectedIndex]) {
                         case "Resume Game": ResumeGame(); break;
                         case "Start New Game": StartNewGame(); break;
+                        case "Score Board": ShowScoreBoard(); break;
                         case "Exit": Environment.Exit(0); break;
                     }
                     exit = true;
@@ -108,6 +118,11 @@ namespace ConsoleSudoku.Screens {
                 _choices.Remove("Resume Game");
                 UpdateShow();
             }
+        }
+
+        private void ShowScoreBoard() {
+            ScoreBoardScreen scoreBoardScreen = new ScoreBoardScreen();
+            scoreBoardScreen.Show();
         }
     }
 }

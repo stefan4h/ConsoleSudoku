@@ -54,6 +54,7 @@ namespace ConsoleSudoku.Screens {
                 case ConsoleKey.Escape:
                     exit = true;
                     break;
+                default: skipRedraw = true; break;
             }
         }
 
