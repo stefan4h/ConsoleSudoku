@@ -37,10 +37,14 @@ namespace ConsoleSudoku.Screens {
                 case ConsoleKey.UpArrow:
                     if (selectedIndex > 0)
                         selectedIndex--;
+                    else
+                        skipRedraw = true;
                     break;
                 case ConsoleKey.DownArrow:
                     if (selectedIndex < _choices.Count - 1)
                         selectedIndex++;
+                    else
+                        skipRedraw = true;
                     break;
                 case ConsoleKey.Enter:
                     switch (_choices[selectedIndex]) {

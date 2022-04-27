@@ -27,10 +27,14 @@ namespace ConsoleSudoku.Screens {
                 case ConsoleKey.UpArrow:
                     if (selectedIndex > 0)
                         selectedIndex--;
+                    else
+                        skipRedraw = true;
                     break;
                 case ConsoleKey.DownArrow:
                     if (selectedIndex < Game.ScoreBoard.Count - 1)
                         selectedIndex++;
+                    else
+                        skipRedraw = true;
                     break;
                 case ConsoleKey.Enter:
 

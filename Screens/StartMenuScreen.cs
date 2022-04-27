@@ -39,8 +39,8 @@ namespace ConsoleSudoku.Screens {
 
             _choices.Add("Start New Game");
 
+            // load the score board from memory
             try {
-
                 using (Stream fileStream = File.OpenRead("scoreboard.bin")) {
                     BinaryFormatter deserializer = new BinaryFormatter();
                     Game.ScoreBoard = (List<FinishedGame>)deserializer.Deserialize(fileStream);
@@ -67,10 +67,14 @@ namespace ConsoleSudoku.Screens {
                 case ConsoleKey.UpArrow:
                     if (selectedIndex > 0)
                         selectedIndex--;
+                    else
+                        skipRedraw = true;
                     break;
                 case ConsoleKey.DownArrow:
                     if (selectedIndex < _choices.Count - 1)
                         selectedIndex++;
+                    else
+                        skipRedraw = true;
                     break;
                 case ConsoleKey.Enter:
                     switch (_choices[selectedIndex]) {
@@ -85,44 +89,55 @@ namespace ConsoleSudoku.Screens {
             }
         }
 
+        /// <summary>
+        /// Resume the game that is currently played
+        /// </summary>
         private void ResumeGame() {
             GameBoardScreen board = new GameBoardScreen();
             board.Show();
 
-            if (board.Solved) {
-                FinishedGameScreen finishedGameScreen = new FinishedGameScreen();
-                finishedGameScreen.Show();
-                Game.Reset();
-                _choices.Remove("Resume Game");
-                UpdateShow();
-            }
+            if (board.Solved) BoardSolved();
         }
 
+        /// <summary>
+        /// Discard any savings of the old game and generate a new one
+        /// </summary>
         private void StartNewGame() {
             Game.Reset();
 
+            // choose a difficulty as the first step
             DifficultyMenuScreen difficultyMenu = new DifficultyMenuScreen();
             difficultyMenu.Show();
             Game.Difficulty = difficultyMenu.GetDifficulty();
 
+            // Now generate a new sudoku puzzle for the given difficulty
             var generateCompleteSudokuAction = new GenerateCompleteSudokuAction();
             generateCompleteSudokuAction.Execute();
 
+            // And show the board with the sudoku
             GameBoardScreen board = new GameBoardScreen();
             board.Show();
 
-            if (board.Solved) {
-                FinishedGameScreen finishedGameScreen = new FinishedGameScreen();
-                finishedGameScreen.Show();
-                Game.Reset();
-                _choices.Remove("Resume Game");
-                UpdateShow();
-            }
+            if (board.Solved) BoardSolved();
         }
 
+        /// <summary>
+        /// Shows the Score Board Screen
+        /// </summary>
         private void ShowScoreBoard() {
             ScoreBoardScreen scoreBoardScreen = new ScoreBoardScreen();
             scoreBoardScreen.Show();
+        }
+
+        /// <summary>
+        /// Things to do when the user solves a sudoku completely
+        /// </summary>
+        private void BoardSolved() {
+            FinishedGameScreen finishedGameScreen = new FinishedGameScreen();
+            finishedGameScreen.Show();
+            Game.Reset();
+            _choices.Remove("Resume Game");
+            UpdateShow();
         }
     }
 }
