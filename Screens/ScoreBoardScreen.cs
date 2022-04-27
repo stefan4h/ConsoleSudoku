@@ -10,12 +10,12 @@ namespace ConsoleSudoku.Screens {
         private int selectedIndex = 0;
 
         protected override void Draw() {
-            ShowSmallerTitle("Score Boards");
+            ShowSmallerTitle("Score Board");
 
             for (int i = 0; i < Game.ScoreBoard.Count; i++) {
                 int spaces = Game.ScoreBoard[i].Score >= 100 ? 0 : 1;
 
-                CW($"{GetStringAsRepeatedChar(' ', spaces)}{Game.ScoreBoard[i].Score} - {Game.ScoreBoard[i].Name}", i == selectedIndex ? randomColor : defaultColor);
+                CW($"{i + 1}.   {GetStringAsRepeatedChar(' ', spaces)}{Game.ScoreBoard[i].Score} - {Game.ScoreBoard[i].Name}", i == selectedIndex ? randomColor : defaultColor);
             }
         }
 
@@ -37,7 +37,8 @@ namespace ConsoleSudoku.Screens {
                         skipRedraw = true;
                     break;
                 case ConsoleKey.Enter:
-
+                    FinishedGameReplayScreen finishedGameReplayScreen = new FinishedGameReplayScreen(Game.ScoreBoard[selectedIndex]);
+                    finishedGameReplayScreen.Show();
                     break;
                 case ConsoleKey.Escape:
                     exit = true;
