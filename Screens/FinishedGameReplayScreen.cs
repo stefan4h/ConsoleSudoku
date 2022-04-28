@@ -22,8 +22,9 @@ namespace ConsoleSudoku.Screens {
         }
 
         private void TimerEvent(object source, ElapsedEventArgs e) {
-            if (_step > _finishedGame.Moves.Count) {
+            if (_step >= _finishedGame.Moves.Count) {
                 timer.Enabled = false;
+                UpdateShow();
                 return;
             }
 
@@ -111,11 +112,10 @@ namespace ConsoleSudoku.Screens {
                 case ConsoleKey.Enter:
                     timer.Enabled = false;
                     _solution = _finishedGame.Solution;
-                    UpdateShow();
+                    _step = _finishedGame.Moves.Count;
                     break;
                 case ConsoleKey.Spacebar:
                     timer.Enabled = !timer.Enabled; // toggle timer
-                    UpdateShow();
                     break;
                 case ConsoleKey.RightArrow:
                     if (_step < _finishedGame.Moves.Count && !timer.Enabled) {

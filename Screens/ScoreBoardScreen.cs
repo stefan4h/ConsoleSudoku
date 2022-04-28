@@ -10,7 +10,7 @@ namespace ConsoleSudoku.Screens {
         private int selectedIndex = 0;
 
         protected override void Draw() {
-            ShowSmallerTitle("Score Board");
+            ShowSmallerTitle("Scoreboard");
 
             for (int i = 0; i < Game.ScoreBoard.Count; i++) {
                 int spaces = Game.ScoreBoard[i].Score >= 100 ? 0 : 1;

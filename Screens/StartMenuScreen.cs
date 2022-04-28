@@ -45,7 +45,7 @@ namespace ConsoleSudoku.Screens {
                     BinaryFormatter deserializer = new BinaryFormatter();
                     Game.ScoreBoard = (List<FinishedGame>)deserializer.Deserialize(fileStream);
 
-                    _choices.Add("Score Board");
+                    _choices.Add("Scoreboard");
                 }
             } catch { }
 
@@ -80,7 +80,7 @@ namespace ConsoleSudoku.Screens {
                     switch (_choices[selectedIndex]) {
                         case "Resume Game": ResumeGame(); break;
                         case "Start New Game": StartNewGame(); break;
-                        case "Score Board": ShowScoreBoard(); break;
+                        case "Scoreboard": ShowScoreBoard(); break;
                         case "Exit": Environment.Exit(0); break;
                     }
                     exit = true;
