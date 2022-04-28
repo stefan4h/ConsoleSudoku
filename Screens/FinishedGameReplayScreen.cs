@@ -13,6 +13,7 @@ namespace ConsoleSudoku.Screens {
         private Timer timer = new Timer(2000); // trigger timer event every 30 seconds
         private int _step = 0; // to save on which step the replay is currently on
         private int[,] _solution = new int[9, 9]; // store current solution for the replay
+        private bool paused = false; // to pause the automatic replay
 
         public FinishedGameReplayScreen(FinishedGame finishedGame) : base() {
             _finishedGame = finishedGame;
@@ -33,8 +34,16 @@ namespace ConsoleSudoku.Screens {
         }
 
         protected override void Draw() {
-            W("Press "); W("ESC", color: randomColor); W($" to go Back to the Score Board\n");
-            W("Press "); W("Enter", color: randomColor); W($" to Skip to the final Result\n");
+            W("Press "); W("ESC ", color: randomColor); W("to go Back to the Score Board\n");
+            W("Press "); W("Enter ", color: randomColor); W("to Skip to the final Result\n");
+            W("Press "); W("Space ", color: randomColor); W(timer.Enabled ? "to Pause Automatic Replay\n" : "to Continue Autmatic Replay\n");
+            if (timer.Enabled) {
+                CW();
+                CW();
+            } else {
+                W("Press "); W("◄ Left Arrow ", color: randomColor); W(" to go to Previous Step\n");
+                W("Press "); W("Right Arrow ► ", color: randomColor); W(" to go to Next Step\n");
+            }
 
             // draw sudoku
             for (int i = 0; i < 9; i++) {
@@ -103,6 +112,28 @@ namespace ConsoleSudoku.Screens {
                     timer.Enabled = false;
                     _solution = _finishedGame.Solution;
                     UpdateShow();
+                    break;
+                case ConsoleKey.Spacebar:
+                    timer.Enabled = !timer.Enabled; // toggle timer
+                    UpdateShow();
+                    break;
+                case ConsoleKey.RightArrow:
+                    if (_step < _finishedGame.Moves.Count && !timer.Enabled) {
+                        // add the next move to the replay solution and reload the grid
+                        _solution[_finishedGame.Moves[_step].X, _finishedGame.Moves[_step].Y] = _finishedGame.Moves[_step].NewValue;
+                        _step++;
+                        skipRedraw = false;
+                    } else
+                        skipRedraw = true;
+                    break;
+                case ConsoleKey.LeftArrow:
+                    if (_step > 0 && !timer.Enabled) {
+                        // change to the prevous value of the grid
+                        _step--;
+                        _solution[_finishedGame.Moves[_step].X, _finishedGame.Moves[_step].Y] = _finishedGame.Moves[_step].OldValue;
+                        skipRedraw = false;
+                    } else
+                        skipRedraw = true;
                     break;
                 default: skipRedraw = true; break;
             }
