@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ConsoleSudoku.Entities {
+    /// <summary>
+    /// Represents already finished games to be saved in memory and later replayed
+    /// </summary>
     [Serializable]
     public class FinishedGame {
         public string Name { get; set; }

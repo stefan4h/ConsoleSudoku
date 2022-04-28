@@ -57,7 +57,7 @@ namespace ConsoleSudoku.Screens {
                 case ESudokuDifficulty.Medium: Game.Progress += 4; break;
                 case ESudokuDifficulty.Hard: Game.Progress += 2; break;
             }
-            UpdateShow();
+            // UpdateShow();
         }
 
         private void DrawBorder(int x, int y, string left, string middle, string normal, string line, string right) {

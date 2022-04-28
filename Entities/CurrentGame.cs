@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ConsoleSudoku.Entities {
+
+    /// <summary>
+    /// Represents the current game to be saved in memory
+    /// </summary>
     [Serializable]
     public class CurrentGame {
         public int[,] Completed { get; set; }

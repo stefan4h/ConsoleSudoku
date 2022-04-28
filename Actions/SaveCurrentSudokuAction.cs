@@ -10,8 +10,12 @@ using System.Xml.Serialization;
 using ConsoleSudoku.Entities;
 
 namespace ConsoleSudoku.Actions {
+    /// <summary>
+    /// Action to save the current sudoku in memory
+    /// </summary>
     public class SaveCurrentSudokuAction : ISudokuAction {
         public void Execute() {
+            // construct the object
             var game = new CurrentGame {
                 Completed = Game.Completed,
                 Hints = Game.Hints,
@@ -23,7 +27,7 @@ namespace ConsoleSudoku.Actions {
                 Difficulty = Game.Difficulty
             };
 
-
+            // save the object as binary file in memory
             using (Stream stream = File.Open("current.bin", FileMode.Create)) {
                 var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 binaryFormatter.Serialize(stream, game);

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 
 namespace ConsoleSudoku.Screens {
+    /// <summary>
+    /// Screen to choose the difficulty of the sudoku puzzle
+    /// </summary>
     public class DifficultyMenuScreen : ASudokuScreen {
         private List<ESudokuDifficulty> difficulties;
         private int selectedIndex;
@@ -11,6 +14,10 @@ namespace ConsoleSudoku.Screens {
             difficulties = new List<ESudokuDifficulty> { ESudokuDifficulty.Easy, ESudokuDifficulty.Medium, ESudokuDifficulty.Hard };
         }
 
+        /// <summary>
+        /// Get the selected difficulty
+        /// </summary>
+        /// <returns>Returns the selected difficulty</returns>
         public ESudokuDifficulty GetDifficulty() {
             return difficulties[selectedIndex];
         }

@@ -53,7 +53,7 @@ namespace ConsoleSudoku.Screens {
         }
 
         protected override void Draw() {
-            ShowSmallerTitle("Game Menu");
+            ShowSmallerTitle("Start Menu");
 
             for (int i = 0; i < _choices.Count; i++)
                 CW(_choices[i], i == selectedIndex ? selectColor : defaultColor);

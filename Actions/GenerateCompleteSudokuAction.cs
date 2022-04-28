@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ConsoleSudoku.Actions {
+    /// <summary>
+    /// Action to generate a complete sudoku puzzle for the given difficulty
+    /// </summary>
     public class GenerateCompleteSudokuAction : ISudokuAction {
 
         public void Execute() {
@@ -82,20 +85,24 @@ namespace ConsoleSudoku.Actions {
                         solveSudokuAction = new SolveSudokuAction(sudokuCopy);
                         solveSudokuAction.Execute();
 
+                        // there could be another solution if this field would be dug
                         if (solveSudokuAction.Solved) {
                             unique = false;
                             break;
                         }
                     }
 
+                    // if the sudoku would still yield a unique solution the grid can be dug
                     if (unique) {
                         Game.Hints[position.Item1, position.Item2] = 0;
+
+                        // decrease the hint counter
                         rowHintCount[position.Item1]--;
                         columnHintCount[position.Item2]--;
                     }
                 }
 
-                digable[position.Item1, position.Item2] = false;
+                digable[position.Item1, position.Item2] = false; // the position was either dug or not and will not be looked at again
 
                 // if there are no more digable grids or the minimum amount of hints is reached the puzzle is finished
                 if (!DigableAvailable(digable) || hintsCount == maxHints)
@@ -118,8 +125,8 @@ namespace ConsoleSudoku.Actions {
             while (true) {
                 // difficulty: EASY | a random cell can be chosen to be the next selected
                 //if (Game.Difficulty == ESudokuDifficulty.Easy) {
-                    x = rnd.Next(0, 9);
-                    y = rnd.Next(0, 9);
+                x = rnd.Next(0, 9);
+                y = rnd.Next(0, 9);
                 //}
                 // difficulty: MEDIUM/HARD | the sequence type "Jumping one cell" will be used
                 //else {

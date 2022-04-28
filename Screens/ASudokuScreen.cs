@@ -129,7 +129,6 @@ namespace ConsoleSudoku.Screens {
         /// Show Screen
         /// </summary>
         public void Show() {
-            Console.CursorVisible = false;
             do {
                 UpdateShow();
             } while (!exit);
@@ -140,6 +139,7 @@ namespace ConsoleSudoku.Screens {
         /// </summary>
         protected void UpdateShow() {
             //randomColor = GetRandomConsoleColor();
+            Console.CursorVisible = false;
             if (!skipRedraw) {
                 Console.Clear();
                 ShowTitle();
