@@ -9,10 +9,6 @@ using System.Threading.Tasks;
 namespace ConsoleSudoku.Screens {
     public class FinishedGameScreen : ASudokuScreen {
 
-        public FinishedGameScreen() : base() {
-
-        }
-
         protected override void Draw() {
             CW();
             CW();
@@ -28,7 +24,7 @@ namespace ConsoleSudoku.Screens {
             CW();
             CW();
             if (Game.GetScore() > 0) {
-                W($"You finished the Sudoku with a Score of "); W(Game.GetScore().ToString() + "\n", randomColor);
+                W($"You finished the Sudoku with a Score of "); W(Game.GetScore().ToString() + "\n", selectColor);
                 W("State your Name for the Score Board: ");
                 string name = Console.ReadLine();
 

@@ -5,7 +5,7 @@ namespace ConsoleSudoku {
     public class Program {
 
         static void Main(string[] args) {
-            Console.SetWindowSize(90, 40);
+            Console.SetWindowSize(95, 40);
             Game.Play();
         }
     }

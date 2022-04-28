@@ -15,7 +15,7 @@ namespace ConsoleSudoku.Screens {
             for (int i = 0; i < Game.ScoreBoard.Count; i++) {
                 int spaces = Game.ScoreBoard[i].Score >= 100 ? 0 : 1;
 
-                CW($"{i + 1}.   {GetStringAsRepeatedChar(' ', spaces)}{Game.ScoreBoard[i].Score} - {Game.ScoreBoard[i].Name}", i == selectedIndex ? randomColor : defaultColor);
+                CW($"{i + 1}.   {GetStringAsRepeatedChar(' ', spaces)}{Game.ScoreBoard[i].Score} - {Game.ScoreBoard[i].Name}", i == selectedIndex ? selectColor : defaultColor);
             }
         }
 

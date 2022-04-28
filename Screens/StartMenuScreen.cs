@@ -14,7 +14,7 @@ namespace ConsoleSudoku.Screens {
         private List<string> _choices;
         private int selectedIndex;
 
-        public StartMenuScreen() : base() {
+        public StartMenuScreen() {
             selectedIndex = 0;
             _choices = new List<string> { };
 
@@ -56,7 +56,7 @@ namespace ConsoleSudoku.Screens {
             ShowSmallerTitle("Game Menu");
 
             for (int i = 0; i < _choices.Count; i++)
-                CW(_choices[i], i == selectedIndex ? randomColor : defaultColor);
+                CW(_choices[i], i == selectedIndex ? selectColor : defaultColor);
         }
 
         protected override void HandleInput() {

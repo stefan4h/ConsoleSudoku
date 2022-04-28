@@ -12,27 +12,23 @@ namespace ConsoleSudoku.Screens {
     public abstract class ASudokuScreen {
 
         protected const int LINE_LENGTH = 90;
-        protected ConsoleColor randomColor;
+        protected ConsoleColor selectColor = ConsoleColor.DarkYellow;
         protected const ConsoleColor defaultColor = ConsoleColor.White;
         // protected const ConsoleColor selectColor = ConsoleColor.Blue;
         protected bool exit = false; // if set to true the screen will exit on next iteration
         protected bool skipRedraw = false; // if set to true the screen will not be redrawn on next iteration
 
-        public ASudokuScreen() {
-            randomColor = GetRandomConsoleColor();
-        }
-
         /// <summary>
         /// Shows the title of the game on top of every screen
         /// </summary>
         private void ShowTitle() {
-            W("   _____", randomColor); W("                           _          "); W("_____", randomColor); W("             _         _              "); W("|\n", randomColor);
-            W("  / ____|", randomColor); W("                         | |        "); W("/ ____|", randomColor); W("           | |       | |             "); W("|\n", randomColor);
-            W(" | |", randomColor); W("      ___   _ __   ___   ___  | |  ___  "); W("| (___", randomColor); W("   _   _   __| |  ___  | | __ _   _    "); W("|\n", randomColor);
-            W(" | |", randomColor); W("     / _ \\ | '_ \\ / __| / _ \\ | | / _ \\  "); W("\\___ \\", randomColor); W(" | | | | / _` | / _ \\ | |/ /| | | |   "); W("|\n", randomColor);
-            W(" | |____", randomColor); W("| (_) || | | |\\__ \\| (_) || ||  __/  "); W("____) |", randomColor); W("| |_| || (_| || (_) ||   < | |_| |   "); W("|\n", randomColor);
-            W("  \\_____|", randomColor); W("\\___/ |_| |_||___/ \\___/ |_| \\___| "); W("|_____/", randomColor); W("  \\__,_| \\__,_| \\___/ |_|\\_\\ \\__,_|   "); W("|\n", randomColor);
-            CW(GetStringAsRepeatedChar('_', LINE_LENGTH - 1) + "|", randomColor);
+            W("   _____", selectColor); W("                           _          "); W("_____", selectColor); W("             _         _              "); W("|\n", selectColor);
+            W("  / ____|", selectColor); W("                         | |        "); W("/ ____|", selectColor); W("           | |       | |             "); W("|\n", selectColor);
+            W(" | |", selectColor); W("      ___   _ __   ___   ___  | |  ___  "); W("| (___", selectColor); W("   _   _   __| |  ___  | | __ _   _    "); W("|\n", selectColor);
+            W(" | |", selectColor); W("     / _ \\ | '_ \\ / __| / _ \\ | | / _ \\  "); W("\\___ \\", selectColor); W(" | | | | / _` | / _ \\ | |/ /| | | |   "); W("|\n", selectColor);
+            W(" | |____", selectColor); W("| (_) || | | |\\__ \\| (_) || ||  __/  "); W("____) |", selectColor); W("| |_| || (_| || (_) ||   < | |_| |   "); W("|\n", selectColor);
+            W("  \\_____|", selectColor); W("\\___/ |_| |_||___/ \\___/ |_| \\___| "); W("|_____/", selectColor); W("  \\__,_| \\__,_| \\___/ |_|\\_\\ \\__,_|   "); W("|\n", selectColor);
+            CW(GetStringAsRepeatedChar('_', LINE_LENGTH - 1) + "|", selectColor);
             CW();
             CW();
         }
@@ -143,7 +139,7 @@ namespace ConsoleSudoku.Screens {
         /// Update the screen
         /// </summary>
         protected void UpdateShow() {
-            randomColor = GetRandomConsoleColor();
+            //randomColor = GetRandomConsoleColor();
             if (!skipRedraw) {
                 Console.Clear();
                 ShowTitle();

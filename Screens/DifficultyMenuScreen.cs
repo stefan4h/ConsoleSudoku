@@ -19,7 +19,7 @@ namespace ConsoleSudoku.Screens {
             ShowSmallerTitle("Choose your Difficulty");
 
             for (int i = 0; i < difficulties.Count; i++)
-                CW(difficulties[i], i == selectedIndex ? randomColor : defaultColor);
+                CW(difficulties[i], i == selectedIndex ? selectColor : defaultColor);
 
             CW();
             CW();

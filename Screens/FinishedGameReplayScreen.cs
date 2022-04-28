@@ -15,7 +15,7 @@ namespace ConsoleSudoku.Screens {
         private int[,] _solution = new int[9, 9]; // store current solution for the replay
         private bool paused = false; // to pause the automatic replay
 
-        public FinishedGameReplayScreen(FinishedGame finishedGame) : base() {
+        public FinishedGameReplayScreen(FinishedGame finishedGame) {
             _finishedGame = finishedGame;
             timer.Elapsed += new ElapsedEventHandler(TimerEvent);
             timer.Enabled = true;
@@ -35,15 +35,15 @@ namespace ConsoleSudoku.Screens {
         }
 
         protected override void Draw() {
-            W("Press "); W("ESC ", color: randomColor); W("to go Back to the Score Board\n");
-            W("Press "); W("Enter ", color: randomColor); W("to Skip to the final Result\n");
-            W("Press "); W("Space ", color: randomColor); W(timer.Enabled ? "to Pause Automatic Replay\n" : "to Continue Autmatic Replay\n");
+            W("Press "); W("ESC ", color: selectColor); W("to go Back to the Score Board\n");
+            W("Press "); W("Enter ", color: selectColor); W("to Skip to the final Result\n");
+            W("Press "); W("Space ", color: selectColor); W(timer.Enabled ? "to Pause Automatic Replay\n" : "to Continue Autmatic Replay\n");
             if (timer.Enabled) {
                 CW();
                 CW();
             } else {
-                W("Press "); W("◄ Left Arrow ", color: randomColor); W(" to go to Previous Step\n");
-                W("Press "); W("Right Arrow ► ", color: randomColor); W(" to go to Next Step\n");
+                W("Press "); W("◄ Left Arrow ", color: selectColor); W(" to go to Previous Step\n");
+                W("Press "); W("Right Arrow ► ", color: selectColor); W(" to go to Next Step\n");
             }
 
             // draw sudoku
@@ -92,7 +92,7 @@ namespace ConsoleSudoku.Screens {
                 if (_finishedGame.Hints[line, j] != 0)
                     W($" {_finishedGame.Hints[line, j]} ");
                 else if (_solution[line, j] != 0)
-                    W($" {_solution[line, j]} ", randomColor);
+                    W($" {_solution[line, j]} ", selectColor);
                 else
                     W("   ");
             }
