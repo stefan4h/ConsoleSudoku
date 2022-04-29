@@ -35,6 +35,10 @@ namespace ConsoleSudoku.Screens {
         }
 
         protected override void Draw() {
+            ShowSmallerTitle($"Replay of the {_finishedGame.Difficulty} Sudoku solved by {_finishedGame.Name} with {_finishedGame.Score} Points");
+
+            CW();
+
             W("Press "); W("ESC ", color: selectColor); W("to go Back to the Score Board\n");
             W("Press "); W("Enter ", color: selectColor); W("to Skip to the final Result\n");
             W("Press "); W("Space ", color: selectColor); W(timer.Enabled ? "to Pause Automatic Replay\n" : "to Continue Autmatic Replay\n");
@@ -62,8 +66,6 @@ namespace ConsoleSudoku.Screens {
                         DrawBorder(9, j, "╚", "╧", "╩", "═══", "╝");
                     }
             }
-
-            CW();
         }
 
         private void DrawBorder(int x, int y, string left, string middle, string normal, string line, string right) {
