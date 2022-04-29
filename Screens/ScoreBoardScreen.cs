@@ -17,6 +17,11 @@ namespace ConsoleSudoku.Screens {
 
                 CW($"{i + 1}.   {GetStringAsRepeatedChar(' ', spaces)}{Game.ScoreBoard[i].Score} - {Game.ScoreBoard[i].Name}", i == selectedIndex ? selectColor : defaultColor);
             }
+
+            CW();
+            CW();
+            W("Press "); W("Enter ", color: selectColor); W("to watch a Replay of the Selected Game\n");
+            W("Press "); W("ESC ", color: selectColor); W("to go Back to the Start Menu");
         }
 
         protected override void HandleInput() {
